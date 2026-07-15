@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'About — ' + (profile.name || 'Portfolio') }) %>
+</head>
+<body>
+<%- include('partials/header', { page }) %>
+
+<!-- HERO SECTION 2 -->
+<section class="about-hero">
+  <div class="container">
+    <div class="eyebrow" style="justify-content:center;">About Me</div>
+    <h1>The person behind the <em style="font-style:italic;color:var(--violet)">work.</em></h1>
+  </div>
+  <% if (heroPhotos.length) { %>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <% heroPhotos.concat(heroPhotos).forEach(function(h){ %>
+        <img src="<%= h.image %>" alt="">
+      <% }); %>
+    </div>
+  </div>
+  <% } %>
+</section>
+
+<!-- BIO -->
+<section class="section" style="padding-top:60px;">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <img src="<%= profile.profile_photo || '/img/placeholder.svg' %>" alt="<%= profile.name %>">
+        <div class="frame"></div>
+      </div>
+      <div class="reveal">
+        <div class="eyebrow">Bio</div>
+        <h2 style="font-size:32px;margin-bottom:18px;"><%= profile.name %></h2>
+        <div class="about-bio">
+          <p><%= profile.bio %></p>
+        </div>
+        <% if (profile.resume_link) { %>
+          <a href="<%= profile.resume_link %>" target="_blank" class="btn btn-primary" style="margin-top:12px;">Download Resume</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- SKILLS -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Skills</div>
+      <h2>Tools of the trade</h2>
+      <p>Technologies and tools I use to bring ideas to life.</p>
+    </div>
+    <% if (skills.length) { %>
+    <div class="skills-grid reveal-stagger">
+      <% skills.forEach(function(s){ %>
+      <div class="skill-card glass">
+        <% if (s.image) { %><img src="<%= s.image %>" alt="<%= s.title %>">
+        <% } else { %><div class="fallback-icon"><%= s.title.slice(0,2).toUpperCase() %></div><% } %>
+        <span><%= s.title %></span>
+      </div>
+      <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state"><strong>No skills added yet</strong>Add your skills and their icons from the dashboard.</div>
+    <% } %>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- EDUCATION -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Education</div>
+      <h2>Academic background</h2>
+    </div>
+    <% if (education.length) { %>
+    <div class="timeline glass reveal" style="padding:8px 28px;">
+      <% education.forEach(function(e){ %>
+      <div class="timeline-item">
+        <div class="year"><%= e.year %></div>
+        <div>
+          <h4><%= e.degree %></h4>
+          <div class="org"><%= e.institution %></div>
+          <% if (e.description) { %><p><%= e.description %></p><% } %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state"><strong>No education added yet</strong>Add your academic history from the dashboard.</div>
+    <% } %>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- TRAININGS -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Trainings &amp; Certifications</div>
+      <h2>Always leveling up</h2>
+    </div>
+    <% if (trainings.length) { %>
+    <div class="timeline glass reveal" style="padding:8px 28px;">
+      <% trainings.forEach(function(t){ %>
+      <div class="timeline-item">
+        <div class="year"><%= t.year %></div>
+        <div>
+          <h4><%= t.title %></h4>
+          <div class="org"><%= t.organization %></div>
+          <% if (t.description) { %><p><%= t.description %></p><% } %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state"><strong>No trainings added yet</strong>Add certifications and trainings from the dashboard.</div>
+    <% } %>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- HOBBIES -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Beyond work</div>
+      <h2>Hobbies &amp; interests</h2>
+    </div>
+    <% if (hobbies.length) { %>
+    <div class="hobbies-row reveal-stagger">
+      <% hobbies.forEach(function(h){ %>
+      <div class="hobby-chip glass"><%= h.icon || '✦' %> <%= h.title %></div>
+      <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state"><strong>No hobbies added yet</strong>Add a few from the dashboard to show your personality.</div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer', { profile }) %>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'Dashboard' }) %>
+</head>
+<body>
+<div class="dash">
+  <aside class="dash-sidebar">
+    <div class="dash-brand">port<span>folio</span>. <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);display:block;">Dashboard</span></div>
+    <nav class="dash-nav">
+      <button data-target="profile" class="active">Profile &amp; Hero</button>
+      <button data-target="hero-photos">Hero Photos</button>
+      <button data-target="skills">Skills</button>
+      <button data-target="education">Education</button>
+      <button data-target="hobbies">Hobbies</button>
+      <button data-target="trainings">Trainings</button>
+      <button data-target="projects">Projects</button>
+      <button data-target="social">Social Links</button>
+      <button data-target="contact">Contact Info</button>
+      <button data-target="messages">Messages</button>
+      <button data-target="security">Security</button>
+    </nav>
+    <div class="dash-foot">
+      <span class="email"><%= adminEmail %></span>
+      <a href="/" target="_blank" class="btn btn-ghost btn-sm btn-block" style="margin-bottom:8px;">View site ↗</a>
+      <form method="POST" action="/admin/logout"><button type="submit" class="btn btn-ghost btn-sm btn-block">Log out</button></form>
+    </div>
+  </aside>
+
+  <main class="dash-main">
+
+    <!-- PROFILE -->
+    <section id="panel-profile" class="dash-panel active">
+      <div class="dash-head"><div><h2>Profile</h2><p>This information powers your Home and About hero sections.</p></div></div>
+
+      <div class="dash-card">
+        <h3>Basic info</h3>
+        <form id="profile-form">
+          <div class="upload-box" onclick="this.querySelector('input').click()" style="margin-bottom:22px;">
+            <img class="preview js-profile-photo-preview" src="/img/placeholder.svg">
+            <div class="txt"><strong>Personal profile photo</strong><span>Click to upload — used on Home and About pages</span></div>
+            <input type="file" name="profile_photo" accept="image/*">
+          </div>
+          <div class="field-grid">
+            <div class="form-group"><label>Full name</label><input class="form-control" name="name" required></div>
+            <div class="form-group"><label>Role / Title</label><input class="form-control" name="role" placeholder="Full Stack Developer"></div>
+          </div>
+          <div class="form-group"><label>Bio</label><textarea class="form-control" name="bio" required></textarea></div>
+          <div class="form-group"><label>Resume link (optional)</label><input class="form-control" name="resume_link" placeholder="https://..."></div>
+          <button type="submit" class="btn btn-primary">Save profile</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- HERO PHOTOS -->
+    <section id="panel-hero-photos" class="dash-panel">
+      <div class="dash-head"><div><h2>Hero Photos</h2><p>Upload one or more images to feature across your hero sections (homepage &amp; about marquee).</p></div></div>
+
+      <div class="dash-card">
+        <h3>Upload a new hero photo</h3>
+        <form id="hero-photo-form">
+          <div class="upload-box" onclick="this.querySelector('input').click()">
+            <img class="preview" id="hero-photo-preview" src="/img/placeholder.svg">
+            <div class="txt"><strong>Choose image</strong><span>JPG, PNG, GIF or WEBP — up to 5MB</span></div>
+            <input type="file" name="image" accept="image/*" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:18px;">Upload photo</button>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>Current hero photos</h3>
+        <div id="hero-photos-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="panel-skills" class="dash-panel">
+      <div class="dash-head"><div><h2>Skills</h2><p>Add a title and icon/image for each skill.</p></div></div>
+
+      <div class="dash-card">
+        <h3><span class="js-submit-label">Add</span> a skill</h3>
+        <form id="form-skills">
+          <div class="upload-box" onclick="this.querySelector('input').click()" style="margin-bottom:18px;">
+            <img class="preview" src="/img/placeholder.svg">
+            <div class="txt"><strong>Skill icon / image</strong><span>Optional — falls back to initials if empty</span></div>
+            <input type="file" name="image" accept="image/*">
+          </div>
+          <div class="form-group"><label>Title</label><input class="form-control" name="title" placeholder="e.g. Node.js" required></div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary"><span class="js-submit-label">Add</span></button>
+            <button type="button" class="btn btn-ghost js-cancel-edit" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>All skills</h3>
+        <table class="list-table" id="table-skills">
+          <thead><tr><th>Image</th><th>Title</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="panel-education" class="dash-panel">
+      <div class="dash-head"><div><h2>Education</h2><p>Your academic background, shown as a timeline on the About page.</p></div></div>
+
+      <div class="dash-card">
+        <h3><span class="js-submit-label">Add</span> education entry</h3>
+        <form id="form-education">
+          <div class="field-grid">
+            <div class="form-group"><label>Degree</label><input class="form-control" name="degree" placeholder="B.Sc Computer Science" required></div>
+            <div class="form-group"><label>Institution</label><input class="form-control" name="institution" required></div>
+          </div>
+          <div class="field-grid">
+            <div class="form-group"><label>Year</label><input class="form-control" name="year" placeholder="2020 – 2024"></div>
+            <div class="form-group"><label>Description</label><input class="form-control" name="description" placeholder="Optional details"></div>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary"><span class="js-submit-label">Add</span></button>
+            <button type="button" class="btn btn-ghost js-cancel-edit" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>All education</h3>
+        <table class="list-table" id="table-education">
+          <thead><tr><th>Degree</th><th>Institution</th><th>Year</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- HOBBIES -->
+    <section id="panel-hobbies" class="dash-panel">
+      <div class="dash-head"><div><h2>Hobbies</h2><p>Small chips shown on the About page.</p></div></div>
+
+      <div class="dash-card">
+        <h3><span class="js-submit-label">Add</span> a hobby</h3>
+        <form id="form-hobbies">
+          <div class="field-grid">
+            <div class="form-group"><label>Title</label><input class="form-control" name="title" placeholder="Photography" required></div>
+            <div class="form-group"><label>Icon (emoji, optional)</label><input class="form-control" name="icon" placeholder="📷"></div>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary"><span class="js-submit-label">Add</span></button>
+            <button type="button" class="btn btn-ghost js-cancel-edit" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>All hobbies</h3>
+        <table class="list-table" id="table-hobbies">
+          <thead><tr><th>Title</th><th>Icon</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TRAININGS -->
+    <section id="panel-trainings" class="dash-panel">
+      <div class="dash-head"><div><h2>Trainings &amp; Certifications</h2><p>Courses, bootcamps and certifications you've completed.</p></div></div>
+
+      <div class="dash-card">
+        <h3><span class="js-submit-label">Add</span> a training</h3>
+        <form id="form-trainings">
+          <div class="field-grid">
+            <div class="form-group"><label>Title</label><input class="form-control" name="title" placeholder="AWS Certified Developer" required></div>
+            <div class="form-group"><label>Organization</label><input class="form-control" name="organization"></div>
+          </div>
+          <div class="field-grid">
+            <div class="form-group"><label>Year</label><input class="form-control" name="year" placeholder="2024"></div>
+            <div class="form-group"><label>Description</label><input class="form-control" name="description" placeholder="Optional details"></div>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary"><span class="js-submit-label">Add</span></button>
+            <button type="button" class="btn btn-ghost js-cancel-edit" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>All trainings</h3>
+        <table class="list-table" id="table-trainings">
+          <thead><tr><th>Title</th><th>Organization</th><th>Year</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="panel-projects" class="dash-panel">
+      <div class="dash-head"><div><h2>Projects</h2><p>Shown in a grid on the Home and Projects pages.</p></div></div>
+
+      <div class="dash-card">
+        <h3><span class="js-submit-label">Add</span> a project</h3>
+        <form id="form-projects">
+          <div class="upload-box" onclick="this.querySelector('input').click()" style="margin-bottom:18px;">
+            <img class="preview" src="/img/placeholder.svg">
+            <div class="txt"><strong>Project preview image</strong><span>Screenshot or cover image of the project</span></div>
+            <input type="file" name="image" accept="image/*">
+          </div>
+          <div class="form-group"><label>Title</label><input class="form-control" name="title" required></div>
+          <div class="form-group"><label>Description</label><textarea class="form-control" name="description"></textarea></div>
+          <div class="field-grid">
+            <div class="form-group"><label>Project link</label><input class="form-control" name="link" placeholder="https://..."></div>
+            <div class="form-group"><label>Tags (comma separated)</label><input class="form-control" name="tags" placeholder="React, Node.js, MongoDB"></div>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary"><span class="js-submit-label">Add</span></button>
+            <button type="button" class="btn btn-ghost js-cancel-edit" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>All projects</h3>
+        <table class="list-table" id="table-projects">
+          <thead><tr><th>Image</th><th>Title</th><th>Link</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SOCIAL LINKS -->
+    <section id="panel-social" class="dash-panel">
+      <div class="dash-head"><div><h2>Social Links</h2><p>Shown as icons on your Contact section and footer.</p></div></div>
+
+      <div class="dash-card">
+        <h3><span class="js-submit-label">Add</span> a social account</h3>
+        <form id="form-social">
+          <div class="field-grid">
+            <div class="form-group"><label>Platform</label><input class="form-control" name="platform" placeholder="GitHub" required></div>
+            <div class="form-group"><label>URL</label><input class="form-control" name="url" placeholder="https://github.com/you" required></div>
+          </div>
+          <div class="form-group"><label>Icon (SVG markup, optional)</label><input class="form-control" name="icon" placeholder="Leave blank to use initials"></div>
+          <div style="display:flex;gap:12px;">
+            <button type="submit" class="btn btn-primary"><span class="js-submit-label">Add</span></button>
+            <button type="button" class="btn btn-ghost js-cancel-edit" style="display:none;">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="dash-card">
+        <h3>All social links</h3>
+        <table class="list-table" id="table-social">
+          <thead><tr><th>Platform</th><th>URL</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONTACT INFO -->
+    <section id="panel-contact" class="dash-panel">
+      <div class="dash-head"><div><h2>Contact Info</h2><p>Your public email, phone number and location.</p></div></div>
+      <div class="dash-card">
+        <form id="contact-info-form">
+          <div class="field-grid">
+            <div class="form-group"><label>Email</label><input class="form-control" type="email" name="email"></div>
+            <div class="form-group"><label>Phone</label><input class="form-control" name="phone"></div>
+          </div>
+          <div class="form-group"><label>Address / Location</label><input class="form-control" name="address"></div>
+          <button type="submit" class="btn btn-primary">Save contact info</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- MESSAGES -->
+    <section id="panel-messages" class="dash-panel">
+      <div class="dash-head"><div><h2>Contact Messages</h2><p>Responses submitted through your Contact Us form.</p></div></div>
+      <div id="messages-list"></div>
+    </section>
+
+    <!-- SECURITY -->
+    <section id="panel-security" class="dash-panel">
+      <div class="dash-head"><div><h2>Security</h2><p>Update the password used to log in to this dashboard.</p></div></div>
+      <div class="dash-card">
+        <form id="password-form">
+          <div class="form-group"><label>Current password</label><input class="form-control" type="password" name="current_password" required></div>
+          <div class="form-group"><label>New password</label><input class="form-control" type="password" name="new_password" minlength="6" required></div>
+          <button type="submit" class="btn btn-primary">Change password</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal glass">
+    <h3>Are you sure?</h3>
+    <p id="confirm-message" style="color:var(--text-muted);font-size:14.5px;"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="confirm-cancel" type="button">Cancel</button>
+      <button class="btn btn-danger" id="confirm-ok" type="button">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/dashboard.js"></script>
+</body>
+</html>

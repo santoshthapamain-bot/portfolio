@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: (profile.name || 'Portfolio') + ' — ' + (profile.role || '') }) %>
+</head>
+<body>
+<%- include('partials/header', { page }) %>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div>
+      <div class="hero-tag"><span class="dot"></span> Available for select work</div>
+      <h1>I build <span class="accent">digital&nbsp;things</span><br><%= profile.role || 'Full Stack Developer' %></h1>
+      <p class="lead"><%= (profile.bio || '').slice(0, 160) %><%= (profile.bio || '').length > 160 ? '…' : '' %></p>
+      <div class="hero-actions">
+        <a href="/projects" class="btn btn-primary">View Projects</a>
+        <a href="/contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong><%= projects.length %>+</strong><span>PROJECTS SHIPPED</span></div>
+        <div><strong><%= skills.length %>+</strong><span>SKILLS &amp; TOOLS</span></div>
+        <div><strong><%= trainings.length %>+</strong><span>TRAININGS DONE</span></div>
+      </div>
+    </div>
+    <div class="hero-canvas-wrap">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- ABOUT SUMMARY -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-photo reveal">
+        <img src="<%= profile.profile_photo || '/img/placeholder.svg' %>" alt="<%= profile.name %>">
+        <div class="frame"></div>
+      </div>
+      <div class="reveal">
+        <div class="eyebrow">About</div>
+        <h2 style="font-size:34px;margin-bottom:18px;">Hi, I'm <%= profile.name %>.</h2>
+        <div class="about-bio">
+          <p><%= profile.bio %></p>
+        </div>
+
+        <% if (skills.length) { %>
+        <div class="skills-grid" style="grid-template-columns:repeat(auto-fill, minmax(110px,1fr));margin-top:28px;">
+          <% skills.slice(0,6).forEach(function(s){ %>
+          <div class="skill-card glass">
+            <% if (s.image) { %><img src="<%= s.image %>" alt="<%= s.title %>">
+            <% } else { %><div class="fallback-icon"><%= s.title.slice(0,2).toUpperCase() %></div><% } %>
+            <span><%= s.title %></span>
+          </div>
+          <% }); %>
+        </div>
+        <% } %>
+
+        <a href="/about" class="btn btn-ghost" style="margin-top:32px;">More about me →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- PROJECTS PREVIEW -->
+<section class="section" id="projects">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Selected Work</div>
+      <h2>Projects worth a second look</h2>
+      <p>A few things I've designed, built and shipped recently.</p>
+    </div>
+
+    <% if (projects.length) { %>
+    <div class="projects-grid reveal-stagger">
+      <% projects.slice(0,6).forEach(function(p){ %>
+      <div class="project-card glass">
+        <div class="project-media">
+          <img src="<%= p.image || '/img/placeholder.svg' %>" alt="<%= p.title %>">
+        </div>
+        <div class="project-body">
+          <h3><%= p.title %></h3>
+          <p><%= (p.description || '').slice(0,90) %><%= (p.description||'').length > 90 ? '…' : '' %></p>
+          <% if (p.link) { %>
+          <a class="project-link" href="<%= p.link %>" target="_blank" rel="noopener">
+            View project
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+          <% } %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="/projects" class="btn btn-ghost">View all projects</a>
+    </div>
+    <% } else { %>
+    <div class="empty-state"><strong>Projects coming soon</strong>Add your first project from the dashboard.</div>
+    <% } %>
+  </div>
+</section>
+
+<div class="container"><div class="divider"></div></div>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>Let's build something together</h2>
+      <p>Have a project in mind, or just want to say hi?</p>
+    </div>
+    <%- include('partials/contact-block', { contact, social }) %>
+  </div>
+</section>
+
+<%- include('partials/footer', { profile }) %>
+</body>
+</html>

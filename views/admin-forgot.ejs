@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'Reset Password' }) %>
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-glow"></div>
+  <div class="auth-glow two"></div>
+  <div class="auth-card glass">
+    <div class="eyebrow">Admin</div>
+    <h1>Forgot password</h1>
+    <p class="sub">Enter your admin email and we'll generate a reset link.</p>
+
+    <% if (typeof error !== 'undefined' && error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <% if (typeof resetLink !== 'undefined' && resetLink) { %>
+      <div class="alert alert-success">
+        Reset link generated. Since no email service is configured, use this link now:<br>
+        <a href="<%= resetLink %>" style="word-break:break-all;color:var(--mint);"><%= resetLink %></a>
+      </div>
+    <% } else { %>
+    <form method="POST" action="/admin/forgot-password">
+      <div class="form-group">
+        <label for="email">Admin email</label>
+        <input class="form-control" type="email" id="email" name="email" required autofocus>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Send reset link</button>
+    </form>
+    <% } %>
+
+    <div class="auth-links">
+      <a href="/admin/login">← Back to login</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

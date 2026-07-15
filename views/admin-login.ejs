@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'Admin Login' }) %>
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-glow"></div>
+  <div class="auth-glow two"></div>
+  <div class="auth-card glass">
+    <div class="eyebrow">Admin</div>
+    <h1>Welcome back</h1>
+    <p class="sub">Sign in to manage your portfolio content.</p>
+
+    <% if (typeof error !== 'undefined' && error) { %><div class="alert alert-error"><%= error %></div><% } %>
+    <% if (typeof notice !== 'undefined' && notice) { %><div class="alert alert-success"><%= notice %></div><% } %>
+
+    <form method="POST" action="/admin/login">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input class="form-control" type="email" id="email" name="email" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    </form>
+    <div class="auth-links">
+      <a href="/">← Back to site</a>
+      <a href="/admin/forgot-password">Forgot password?</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

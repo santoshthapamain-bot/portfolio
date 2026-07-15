@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'Contact — ' + (profile.name || 'Portfolio') }) %>
+</head>
+<body>
+<%- include('partials/header', { page }) %>
+
+<section class="section" style="padding-top:160px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>Let's build something together</h2>
+      <p>Have a project in mind, a question, or just want to say hi? Reach out below.</p>
+    </div>
+    <%- include('partials/contact-block', { contact, social, sent, error }) %>
+  </div>
+</section>
+
+<%- include('partials/footer', { profile }) %>
+</body>
+</html>

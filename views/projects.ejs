@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', { title: 'Projects — ' + (profile.name || 'Portfolio') }) %>
+</head>
+<body>
+<%- include('partials/header', { page }) %>
+
+<section class="section" style="padding-top:160px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Portfolio</div>
+      <h2>All Projects</h2>
+      <p>A collection of things I've designed, built, and shipped — hover a card to feel it in 3D.</p>
+    </div>
+
+    <% if (projects.length) { %>
+    <div class="projects-grid reveal-stagger">
+      <% projects.forEach(function(p){ %>
+      <div class="project-card glass">
+        <div class="project-media">
+          <img src="<%= p.image || '/img/placeholder.svg' %>" alt="<%= p.title %>">
+        </div>
+        <div class="project-body">
+          <h3><%= p.title %></h3>
+          <p><%= p.description %></p>
+          <% if (p.tags) { %>
+          <div class="tag-row">
+            <% p.tags.split(',').map(t => t.trim()).filter(Boolean).forEach(function(tag){ %>
+              <span class="tag"><%= tag %></span>
+            <% }); %>
+          </div>
+          <% } %>
+          <% if (p.link) { %>
+          <a class="project-link" href="<%= p.link %>" target="_blank" rel="noopener">
+            View project
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+          <% } %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <% } else { %>
+    <div class="empty-state"><strong>No projects yet</strong>Add your first project from the dashboard — title, description, image and a link.</div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer', { profile }) %>
+</body>
+</html>
